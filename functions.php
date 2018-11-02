@@ -13,7 +13,7 @@ function orbisius_ct_storefront_child_theme_child_theme_enqueue_styles() {
     wp_enqueue_style( $parent_style . '_child_style',
         get_stylesheet_directory_uri() . '/style.css',
         array( $parent_style ),
-        wp_get_theme()->get('Version')
+        wp_get_theme()->get('Version')  
     );
 }
 
@@ -70,7 +70,9 @@ add_action('activation_key_table','create_table');
 global $wpdb;
 
  if(!empty($_POST['load'])){
-        echo "<update>".json_encode(array('slug'=>'wp-form','download_url'=>'http://localhost/wp-form.zip','version'=>'3.0'))."</update>";
+        $plugin_update = $wpdb->prefix."plugin_release";
+        $value = $wpdb->get_results("SELECT * FROM $plugin_update WHERE id ='1';",ARRAY_A)[0];
+        echo "<update>".json_encode(array('slug'=>$value['slug'],'download_url'=>$value['download_url'],'version'=>$value['version']))."</update>";
 
         $activation_key = $_POST['activation_key'];
         // $activation_key = 'd007209d0af37aa9d0063d285fc581de67172844';
