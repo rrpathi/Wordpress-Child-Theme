@@ -72,7 +72,12 @@ global $wpdb;
  if(!empty($_POST['load'])){
         $plugin_update = $wpdb->prefix."plugin_release";
         $value = $wpdb->get_results("SELECT * FROM $plugin_update WHERE id ='1';",ARRAY_A)[0];
-        echo "<update>".json_encode(array('slug'=>$value['slug'],'download_url'=>$value['download_url'],'version'=>$value['version']))."</update>";
+        $file_headers = get_headers($value['download_url']);
+        if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
+        }
+        else {
+            echo "<update>".json_encode(array('slug'=>$value['slug'],'download_url'=>$value['download_url'],'version'=>$value['version']))."</update>";
+        }
 
         $activation_key = $_POST['activation_key'];
         // $activation_key = 'd007209d0af37aa9d0063d285fc581de67172844';
